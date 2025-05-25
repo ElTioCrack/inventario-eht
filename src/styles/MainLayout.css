@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* ==== ESTRUCTURA GENERAL ==== */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f4f1eb;
+    margin: 0;
+    padding: 0;
+}
+
+.layout-productos {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.encabezado-productos {
+    height: 140px;
+    background-image: url('/assets/bg-header-2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.encabezado-contenido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.contenedor-logo img {
+    height: 100px;
+    margin-right: 20px;
+}
+
+.titulo-principal {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-size: 2.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.zona-principal {
+    padding: 20px;
+}
+
+.pie-pagina {
+    background-image: url('/assets/fondo_pie_1-2.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 300%;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: inset 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.contenido-footer {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.nombre-escuela {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.ubicacion {
+    font-size: 1em;
+    margin: 2px 0;
+    font-style: italic;
+}
+
+.derechos {
+    font-size: 0.9em;
+    margin: 0;
+    color: #ccc;
+}
+
+.contenedor-central {
+    max-width: 1450px;
+    margin: 0 auto;
+    width: 100%;
+}
