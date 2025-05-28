@@ -14,7 +14,7 @@ function ProductForm() {
     categoriaId: "",
     categoriaNombre: "",
     cantidad: "",
-    precio: 0,
+    precio: "",
     fotoUrl: "",
   });
 
@@ -49,6 +49,45 @@ function ProductForm() {
     }
   }, [id]);
 
+  useEffect(() => {
+    const ajustarAltura = () => {
+      const nombre = document.querySelector("textarea[name='nombre']");
+      const cantidad = document.querySelector("textarea[name='cantidad']");
+      const precio = document.querySelector("textarea[name='precio']");
+
+      if (nombre) {
+        nombre.style.height = "auto";
+        nombre.style.height = `${nombre.scrollHeight}px`;
+      }
+
+      if (cantidad && precio) {
+        cantidad.style.height = "auto";
+        precio.style.height = "auto";
+        const alturaMax = Math.max(cantidad.scrollHeight, precio.scrollHeight);
+        cantidad.style.height = `${alturaMax}px`;
+        precio.style.height = `${alturaMax}px`;
+      }
+    };
+
+    ajustarAltura();
+
+    const handler = () => ajustarAltura();
+
+    const nombre = document.querySelector("textarea[name='nombre']");
+    const cantidad = document.querySelector("textarea[name='cantidad']");
+    const precio = document.querySelector("textarea[name='precio']");
+
+    nombre?.addEventListener("input", handler);
+    cantidad?.addEventListener("input", handler);
+    precio?.addEventListener("input", handler);
+
+    return () => {
+      nombre?.removeEventListener("input", handler);
+      cantidad?.removeEventListener("input", handler);
+      precio?.removeEventListener("input", handler);
+    };
+  }, [formData.nombre, formData.cantidad, formData.precio]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -71,7 +110,7 @@ function ProductForm() {
       reader.onload = () => {
         setFormData((prev) => ({
           ...prev,
-          fotoUrl: reader.result,
+          imagenBase64: reader.result,
         }));
         setNombreArchivo(file.name);
       };
@@ -80,7 +119,10 @@ function ProductForm() {
   };
 
   const borrarImagen = () => {
-    setFormData((prev) => ({ ...prev, fotoUrl: "" }));
+    setFormData((prev) => ({
+      ...prev,
+      imagenBase64: "",
+    }));
     setNombreArchivo("");
   };
 
@@ -91,8 +133,7 @@ function ProductForm() {
     if (!formData.nombre.trim()) camposFaltantes.push("Nombre");
     if (!formData.categoriaId.trim()) camposFaltantes.push("Categoría");
     if (!formData.cantidad.trim()) camposFaltantes.push("Cantidad");
-    if (!formData.precio || isNaN(formData.precio))
-      camposFaltantes.push("Precio");
+    if (!formData.precio.trim()) camposFaltantes.push("Precio");
 
     if (camposFaltantes.length > 0) {
       alert(
@@ -112,10 +153,11 @@ function ProductForm() {
       categoriaId: formData.categoriaId.trim(),
       categoriaNombre: formData.categoriaNombre.trim(),
       cantidad: formData.cantidad.trim(),
-      precio: parseFloat(formData.precio),
-      fotoUrl: formData.fotoUrl || "",
+      precio: formData.precio.trim(),
+      imagenBase64: formData.imagenBase64 || "",
+      urlImagen: "",
       fechaCreacion: id ? formData.fechaCreacion || timestamp : timestamp,
-      ultimaEdicion: id ? timestamp || "" : "",
+      ultimaEdicion: id ? timestamp : "",
     };
 
     try {
@@ -144,13 +186,13 @@ function ProductForm() {
           <div className="columna-formulario">
             <div className="form-group">
               <label>Nombre:</label>
-              <input
-                type="text"
+              <textarea
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleChange}
+                rows={2}
                 required
-              />
+              ></textarea>
             </div>
 
             <div className="form-group">
@@ -172,30 +214,30 @@ function ProductForm() {
               </select>
             </div>
 
-            <div className="form-group">
-              <label>Cantidad:</label>
-              <input
-                type="text"
-                name="cantidad"
-                value={formData.cantidad}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Precio (Bs):</label>
-              <input
-                type="number"
-                name="precio"
-                step="0.01"
-                value={formData.precio}
-                onChange={handleChange}
-                required
-              />
+            <div className="fila-cantidad-precio">
+              <div className="form-group precio-col">
+                <label>Precio (Bs):</label>
+                <textarea
+                  name="precio"
+                  value={formData.precio}
+                  onChange={handleChange}
+                  rows={4}
+                  required
+                ></textarea>
+              </div>
+              <div className="form-group cantidad-col">
+                <label>Cantidad:</label>
+                <textarea
+                  name="cantidad"
+                  value={formData.cantidad}
+                  onChange={handleChange}
+                  rows={4}
+                  required
+                ></textarea>
+              </div>
             </div>
           </div>
-
+          <hr className="linea-moviles" />
           <div className="columna-imagen">
             <div className="grupo-file-row">
               <label className="custom-file">
@@ -209,22 +251,46 @@ function ProductForm() {
               <button
                 type="button"
                 className="btn-borrar-imagen-inline"
-                disabled={!formData.fotoUrl}
+                disabled={
+                  !formData.fotoUrl &&
+                  !formData.urlImagen &&
+                  (!formData.imagenBase64 ||
+                    formData.imagenBase64.trim() === "")
+                }
                 onClick={borrarImagen}
               >
                 ❌ Quitar Imagen
               </button>
             </div>
 
-            {nombreArchivo && (
+            {/* {nombreArchivo && (
               <p className="nombre-archivo">📎 {nombreArchivo}</p>
-            )}
+            )} */}
 
-            <div className="imagen-preview">
-              <img
-                src={formData.fotoUrl || "/assets/default_image.png"}
-                alt="Vista previa"
-              />
+            <div className="polaroid-wrapper">
+              <div className="polaroid-frame">
+                <img
+                  src={
+                    formData.imagenBase64
+                      ? formData.imagenBase64.startsWith("data:image")
+                        ? formData.imagenBase64
+                        : `data:image/png;base64,${formData.imagenBase64}`
+                      : "/assets/default_image.png"
+                  }
+                  alt="Vista previa"
+                  className="polaroid-image"
+                  onError={(e) => {
+                    if (!e.target.dataset.fallback) {
+                      e.target.dataset.fallback = true;
+                      e.target.src = "/assets/default_image.png";
+                    }
+                  }}
+                />
+
+                <div className="polaroid-caption">
+                  {nombreArchivo || "Imagen de producto"}
+                </div>
+              </div>
             </div>
           </div>
         </div>

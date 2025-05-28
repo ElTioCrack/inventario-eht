@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/MainLayout.css";
+import { Link } from "react-router-dom";
 
 function MainLayout({ children }) {
   const añoInicio = 2025;
@@ -12,9 +13,9 @@ function MainLayout({ children }) {
       {/* Encabezado */}
       <header className="encabezado-productos">
         <div className="contenedor-central encabezado-contenido">
-          <div className="contenedor-logo">
+          <Link to="/" className="contenedor-logo">
             <img src="/assets/logo_eht_2023.png" alt="Logo EHT" />
-          </div>
+          </Link>
           <h1 className="titulo-principal">Inventario EHT</h1>
         </div>
       </header>

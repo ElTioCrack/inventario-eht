@@ -70,6 +70,7 @@
 
 .tabla-productos {
     width: 100%;
+    min-width: 1000px;
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -103,50 +104,61 @@ th:not(.ordenable) {
 .tabla-productos th:nth-child(1),
 .tabla-productos td:nth-child(1) {
     min-width: 60px;
-    width: 60px;
     max-width: 60px;
+    width: 60px;
     text-align: right;
 }
 
 .tabla-productos th:nth-child(2),
 .tabla-productos td:nth-child(2) {
-    min-width: 150px;
-    width: auto;
+    min-width: 180px;
+    max-width: 250px;
+    width: 220px;
     text-align: left;
+    word-break: break-word;
 }
 
 .tabla-productos th:nth-child(3),
 .tabla-productos td:nth-child(3) {
-    max-width: 150px;
-    width: auto;
+    min-width: 150px;
+    max-width: 220px;
+    width: 180px;
     text-align: left;
+    word-break: break-word;
 }
 
 .tabla-productos th:nth-child(4),
-.tabla-productos td:nth-child(4),
+.tabla-productos td:nth-child(4) {
+    min-width: 100px;
+    max-width: 120px;
+    width: 110px;
+    text-align: right;
+}
+
 .tabla-productos th:nth-child(5),
 .tabla-productos td:nth-child(5) {
-    min-width: 110px;
-    width: 110px;
-    max-width: 110px;
-    text-align: right;
+    min-width: 200px;
+    max-width: 250px;
+    width: 120px;
+    text-align: left;
 }
 
 .tabla-productos th:nth-child(6),
 .tabla-productos td:nth-child(6) {
+    min-width: 200px;
+    max-width: 250px;
+    width: 160px;
     text-align: center;
-    min-width: 150px;
-    width: 150px;
-    max-width: 150px;
 }
 
 .tabla-productos th:nth-child(7),
 .tabla-productos td:nth-child(7) {
-    min-width: 100px;
-    width: 100px;
-    max-width: 100px;
+    min-width: 120px;
+    max-width: 140px;
+    width: 130px;
     text-align: center;
 }
+
 
 .tabla-productos tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
@@ -180,6 +192,11 @@ th:not(.ordenable) {
 .tabla-productos td.acciones-celda {
     text-align: right;
     vertical-align: middle;
+}
+
+.con-multilinea {
+    white-space: pre-line;
+    word-break: break-word;
 }
 
 .boton-accion {
@@ -327,6 +344,73 @@ th:not(.ordenable) {
 }
 
 .puntos-paginacion {
-    padding: 6px 12px;
+    padding: 6px 8px;
     color: #666;
+}
+
+.tabla-scroll-horizontal {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.layout-productos,
+.zona-principal {
+    overflow-x: hidden;
+}
+
+.estado-mensaje {
+    margin-top: 30px;
+    font-size: 1.2em;
+    color: #444;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Botones paginación solo en móviles */
+.fila-paginacion-movil {
+    display: none;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.fila-paginacion-centrada {
+    user-select: none;
+}
+
+button {
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+
+    .fila-paginacion-centrada>button:first-child,
+    .fila-paginacion-centrada>button:last-child {
+        display: none;
+    }
+
+
+    .fila-paginacion-movil {
+        display: flex;
+        /* muestra los botones simples */
+    }
+
+    .fila-busqueda{
+        display: flex;
+        flex-direction: column;
+    }
 }

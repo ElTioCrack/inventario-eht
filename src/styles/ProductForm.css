@@ -185,3 +185,154 @@
     gap: 20px;
     margin-top: 30px;
 }
+
+textarea {
+    font-family: inherit;
+    resize: vertical;
+}
+
+.fila-cantidad-precio {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.cantidad-col,
+.precio-col {
+    flex: 1;
+    min-width: 160px;
+}
+
+.precio-col textarea {
+    text-align: right;
+}
+
+textarea {
+    width: 100%;
+    min-height: 3.2em;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #ccc;
+    background-color: #fefefe;
+    resize: none;
+    /* 🔒 No se puede redimensionar con mouse */
+    overflow-y: hidden;
+    /* Scroll oculto, se expande automáticamente */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.fila-cantidad-precio textarea {
+    min-height: 5em;
+}
+
+
+.polaroid-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.polaroid-frame {
+    background: white;
+    padding: 10px 10px 30px 10px;
+    /* marco inferior más grande */
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 260px;
+    text-align: center;
+}
+
+.polaroid-image {
+    width: 100%;
+    border-radius: 4px;
+    object-fit: contain;
+    max-height: 220px;
+}
+
+.polaroid-caption {
+    margin-top: 12px;
+    font-size: 0.9em;
+    color: #555;
+    font-style: italic;
+    text-align: center;
+    /* ✅ Centrado horizontal */
+    white-space: normal;
+    /* ✅ Permite saltos de línea automáticos */
+    word-break: break-word;
+    /* ✅ Corta palabras largas si es necesario */
+    overflow-wrap: break-word;
+    /* ✅ Compatibilidad adicional */
+}
+
+.linea-moviles {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .formulario-producto-doble-columna>div {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .columna-formulario,
+    .columna-imagen {
+        padding: 0;
+        border: none;
+        width: 100%;
+    }
+
+    .fila-cantidad-precio {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .cantidad-col,
+    .precio-col {
+        width: 100%;
+    }
+
+    .precio-col textarea,
+    .cantidad-col textarea,
+    textarea[name="nombre"] {
+        text-align: left !important;
+    }
+
+    .polaroid-frame {
+        max-width: 100%;
+    }
+
+    .btn-upload,
+    .btn-borrar-imagen-inline {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grupo-file-row {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .fila-botones {
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .btn-formulario {
+        width: 100%;
+    }
+
+    .linea-moviles {
+        display: block;
+    }
+}
